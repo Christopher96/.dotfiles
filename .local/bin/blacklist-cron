@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+import os
+from datetime import datetime as date
+day = date.today().strftime("%A")
+
+if day == 'Friday' or day == 'Saturday' or day == 'Sunday':
+    os.system("ln -sf /etc/hosts_white /etc/hosts")
+else:
+    os.system("ln -sf /etc/hosts_black /etc/hosts")

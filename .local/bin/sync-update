@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import os.path
+import sys
+import subprocess
+import time
+from datetime import datetime
+
+def sync(local, remote, action):
+    exists = os.path.exists(local)
+    print(local, action)
+    print(exists)
+    return
+    if exists:
+        if action == "CREATE,ISDIR":
+            rclone("mkdir", remote)
+        if action == "CLOSE_WRITE,CLOSE" or action == "MOVED_TO":
+            rclone_src("copyto", local, remote)
+    else:
+        if action == "DELETE,ISDIR":
+            rclone("purge", remote)
+        if action == "DELETE" or action == "MOVED_FROM":
+            rclone("delete", remote)
+
+
+def rclone(action, remote):
+    subprocess.call(["rclone", action, remote])
+
+def rclone_src(action, local, remote):
+    subprocess.call(["rclone", action, local, remote])
+
+def stamp(action, remote):
+    now = datetime.now()
+    print(now, action, remote)
+
+laststamp = None
+lastline = None
+
+for line in sys.stdin:
+    timestamp = time.time()
+    if laststamp != None:
+        if timestamp - laststamp < 1:
+            continue
+    laststamp = timestamp
+    slash = line.rfind("/") + 1
+    local = line[:slash]
+    line = line[slash+1:]
+    line = line.split(" ")
+    action = line[0]
+    file = line[1][:-1]
+    local += file
+    start = len(sys.argv[1])
+    remote = sys.argv[2] + local[start:]
+    sync(local, remote, action)
+
+
+

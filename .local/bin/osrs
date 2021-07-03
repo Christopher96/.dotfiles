@@ -1,0 +1,13 @@
+#!/bin/bash
+
+RL_DIR=".jagex"
+
+if [ -z _JAVA_OPTIONS ] ; then
+	_JAVA_OPTIONS="-Duser.home=\"$RL_DIR\""
+else
+	_JAVA_OPTIONS="$_JAVA_OPTIONS -Duser.home=\"$RL_DIR\""
+fi
+
+export _JAVA_OPTIONS
+
+runelite

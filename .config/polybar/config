@@ -1,0 +1,587 @@
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+bg_transparent = ${xrdb:polybar.bg_transparent:#E9000000}
+background = ${xrdb:polybar.background:#000000}
+background_alt = ${xrdb:polybar.background_alt:#000000}
+foreground = ${xrdb:polybar.foreground:#ffffff}
+foreground_alt = ${xrdb:polybar.foreground_alt:#ffffff}
+selected = ${xrdb:polybar.selected:#ffffff}
+
+[bar/parent]
+font-0 = ${xrdb:polybar.font_0}
+font-1 = ${xrdb:polybar.font_1}
+font-2 = ${xrdb:polybar.font_2}
+
+width = 100%
+height = 35
+
+fixed-center = true
+
+offset-y = 0
+radius = 0
+
+;background-0 = #070421
+;background-1 = #0b0420
+;background-2 = #FF130630
+;background-3 = #F21a0739
+;background-4 = #D91e0946
+;background-5 = #BF2c0a53
+;background-6 = #A6350a53
+;background-7 = #803e0a53
+;background-8 = #4D400a53
+;background-9 = #1A490a53
+background = ${colors.bg_transparent}
+foreground = ${colors.foreground}
+
+line-size = 5
+line-color = ${colors.selected}
+
+border-left-size = 4 
+border-right-size = 4 
+border-top-size = 5
+border-bottom-size = -6
+
+;bottom = true
+
+padding-left = 2
+; padding-right = 2
+
+module-margin-left = 0
+module-margin-right = 0
+
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+[bar/DVI-I-1]
+inherit = bar/parent
+monitor = ${env:MONITOR:DVI-I-1}
+
+modules-left = i3 w1
+modules-center = xwindow
+modules-right = sl temp sr sl wlan sr
+[bar/HDMI-0]
+inherit = bar/parent
+monitor = ${env:MONITOR:HDMI-0}
+
+modules-left = arch i3 w2
+modules-center = xwindow
+modules-right = empty sl weather sr sl date sr
+
+[bar/HDMI-0-bottom]
+inherit = bar/parent
+monitor = ${env:MONITOR:HDMI-0}
+bottom = true
+
+modules-left = crypto
+
+[bar/DP-3]
+inherit = bar/parent
+monitor = ${env:MONITOR:DP-3}
+modules-left = i3 w3
+modules-center = xwindow
+modules-right = sl pkg sr sl pulseaudio
+
+tray-position = right
+tray-padding = 10
+tray-transparent = true
+tray-background = ${colors.background}
+
+;
+; CUSTOM MODULES
+;
+
+[module/windows]
+type = custom/script
+interval = 0.5
+label = %output% 
+
+[module/w1]
+inherit = module/windows
+exec = ~/.config/polybar/bin/windows.sh -m "DVI-I-1"
+
+[module/w2]
+inherit = module/windows
+exec = ~/.config/polybar/bin/windows.sh -m "HDMI-0"
+
+[module/w3]
+inherit = module/windows
+exec = ~/.config/polybar/bin/windows.sh -m "DP-3"
+
+[module/sl]
+type = custom/text
+content = %{O0}%{T3}%{T-}
+content-foreground = ${colors.foreground}
+
+[module/sl-thin]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.foreground_alt}
+
+[module/sr-thin]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.foreground_alt}
+
+[module/sr]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.foreground_alt}
+
+[module/sr-invert]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.foreground}
+
+[module/arch]
+type = custom/text
+content = %{O-30}%{T3}%{T-}
+content-foreground = ${colors.foreground}
+content-padding = 3
+
+
+[module/ip]
+type = custom/script
+lnterval = 5000
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = "%{T2}%{T-}%output%"
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+exec = ~/.config/polybar/bin/ip.sh
+click-left = ~/.config/polybar/bin/ip.sh --public 
+click-right = ~/.config/polybar/bin/ip.sh --local
+
+[module/drive]
+type = custom/script
+lnterval = 10000
+
+format-prefix =  
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = "%{T2}%{T-}%output%"
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+exec = ~/.config/polybar/bin/drive.sh
+
+[module/crypto]
+type = custom/script
+interval = 30
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground_alt}
+label = %output%
+exec = ~/.config/polybar/bin/crypto.py bitcoin ethereum litecoin iota eos request-network icon cindicator aion cardano kucoin-shares
+exec-if = ~/.config/polybar/bin/ifonline.sh
+
+[module/mpv]
+type = custom/script
+
+exec = sh ~/.config/polybar/bin/mpv.sh
+exec-if = pgrep -x mpv 
+interval = 1
+
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground_alt}
+
+label = %output%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = @DEFAULT_SINK@
+use-ui-max = true
+interval = 5
+
+format-volume = <ramp-volume><label-volume>
+format-volume-foreground = ${colors.foreground}
+format-volume-background = ${colors.foreground_alt}
+
+format-volume-suffix = %{T3}%{T-}
+format-volume-suffix-foreground = ${colors.foreground_alt}
+
+label-volume = %{T2}%{T-}%percentage%%
+label-volume-foreground = ${colors.foreground}
+label-volume-background = ${colors.foreground_alt}
+
+format-muted = <label-muted>%{T3}%{T-}
+format-muted-foreground = ${colors.foreground}
+format-muted-background = ${colors.foreground_alt}
+
+label-muted = 婢 muted
+label-muted-foreground = ${colors.foreground_alt}
+label-muted-background = ${colors.foreground}
+
+ramp-volume-0 = 
+ramp-volume-1 =墳
+ramp-volume-2 = 
+
+ramp-volume-foreground = ${colors.foreground_alt}
+ramp-volume-background = ${colors.foreground}
+
+[module/trash]
+interval = 10
+type = custom/script
+
+format = <label>
+exec = ~/.config/polybar/bin/trash.sh
+
+format-prefix =  
+format-prefix-foreground = ${colors.foreground}
+format-prefix-background = ${colors.foreground_alt}
+format-suffix = %{T2}%{T-}
+
+label = %{T2}%{T-}%output%
+label-foreground = ${colors.foreground_alt}
+label-background = ${colors.foreground}
+
+
+click-right = rm -rf ~/.local/share/Trash/files/* ;exec paplay /usr/share/sounds/freedesktop/stereo/trash-empty.oga
+click-left = thunar ~/.local/share/Trash/files
+
+[module/weather]
+type = custom/script
+interval = 100
+format = <label>
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = "%{T2}%{T-}%output%"
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+exec = ~/.config/polybar/bin/weather.py
+exec-if = ~/.config/polybar/bin/ifonline.sh
+
+[module/pkg]
+type = custom/script
+interval = 5000
+format = <label>
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = "%{T2}%{T-}%output%"
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+exec = checkupdates+aur | wc -l
+exec-if = echo %output% | grep -v error
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = 
+;label-open-foreground = ${colors.secondary}
+label-close = Cancel
+;label-close-foreground = ${colors.secondary}
+label-separator = |
+label-separator-foreground = ${colors.foreground_alt}
+
+menu-0-0 = Reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = Shutdown
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = Cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = Shutdown
+menu-1-1-exec = sudo reboot
+
+menu-2-0 = Shutdown
+menu-2-0-exec = sudo shutdown -h now
+menu-2-1 = Cancel
+menu-2-1-exec = menu-open-0
+
+;
+; INTERNAL MODULES
+;
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:100:...%
+;format-foreground = ${colors.selected}
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground_alt}
+;format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+mount-0 = /
+format-mounted = <label-mounted>
+format-mounted-prefix = " "
+format-mounted-prefix-foreground = ${colors.foreground_alt}
+label-mounted = %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+
+[module/i3]
+type = internal/i3
+
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
+
+format = <label-state>
+
+label-focused = ${env:POLY_I3_FOCUSED}
+label-focused-foreground = ${colors.foreground_alt}
+
+label-unfocused = ${env:POLY_I3_UNFOCUSED}
+label-unfocused-foreground = ${colors.foreground}
+
+label-visible = ${env:POLY_I3_UNFOCUSED}
+label-visible-foreground = ${colors.foreground}
+
+label-urgent = %icon%
+label-urgent-foreground = ${colors.foreground}
+
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+icon-prev =
+icon-stop =
+icon-play =
+icon-pause =
+icon-next =
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+[module/xbacklight]
+type = internal/xbacklight
+
+format = <label> <bar>
+label = BL
+
+bar-width = 10
+bar-indicator = |
+bar-indicator-foreground = #ff
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-fill-foreground = #9f78e1
+bar-empty = ─
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground_alt}
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground_alt}
+;format-underline = ${colors.foreground_alt}
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground_alt}
+;format-underline = ${colors.foreground_alt}
+fabel = %percentage_used%%
+
+[module/wlan]
+type = internal/network
+interface = wlan0
+interval = 3.0
+
+format-connected-prefix = ""
+format-connected-prefix-foreground = ${colors.foreground_alt}
+format-connected-prefix-background = ${colors.foreground}
+
+format-disconnected-prefix = ""
+format-disconnected-prefix-foreground = ${colors.foreground_alt}
+format-disconnected-prefix-background = ${colors.foreground}
+
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+
+label-connected = "%essid% %downspeed%"
+label-connected-foreground = ${colors.foreground}
+label-connected-background = ${colors.foreground_alt}
+
+label-disconnected = ""
+label-disconnected-foreground = ${colors.foreground}
+label-disconnected-background = ${colors.foreground_alt}
+
+[module/eth]
+type = internal/network
+interface = eth0
+interval = 3.0
+
+format-connected-prefix = ""
+format-connected-prefix-foreground = ${colors.foreground_alt}
+format-connected-prefix-background = ${colors.foreground}
+
+format-connected = <label-connected>
+; format-connected-underline = ${colors.foreground_alt}
+; format-connected-overline = ${colors.foreground_alt}
+
+label-connected = " %local_ip%"
+label-connected-foreground = ${colors.foreground}
+label-connected-background = ${colors.foreground_alt}
+
+[module/date]
+type = internal/date
+;format-underline = ${colors.foreground_alt}
+interval = 1
+
+date =
+date-alt = "%Y/%m/%d %A "
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix =  
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = %{T2}%{T-}%date%%time%
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+[module/volume]
+type = internal/volume
+label-muted-underline = ${colors.foreground_alt}
+format-underline = ${colors.foreground_alt}
+format-volume = <bar-volume>
+label-volume = VOL
+label-volume-foreground = ${root.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground_alt}
+label-muted = sound muted
+
+bar-volume-width = 10
+bar-volume-foreground-0 = ${colors.foreground}
+bar-volume-foreground-1 = ${colors.foreground}
+bar-volume-foreground-2 = ${colors.foreground}
+bar-volume-foreground-3 = ${colors.foreground}
+bar-volume-foreground-4 = ${colors.foreground}
+bar-volume-foreground-5 = ${colors.foreground}
+bar-volume-foreground-6 = ${colors.foreground}
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground_alt}
+
+[module/temp]
+type = custom/script
+interval = 1
+exec = ~/.config/polybar/bin/temp.sh 
+
+format = <label>
+format-prefix =  
+format-prefix-foreground = ${colors.foreground_alt}
+format-prefix-background = ${colors.foreground}
+
+label = %{T2}%{T-}%output%
+label-background = ${colors.foreground_alt}
+label-foreground = ${colors.foreground}
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground_alt}
+
+
+[settings]
+; The throttle settings lets the eventloop swallow up til X events
+; if they happen within Y millisecond after first event was received.
+; This is done to prevent flood of update event.
+;
+; For example if 5 modules emit an update event at the same time, we really
+; just care about the last one. But if we wait too long for events to swallow
+; the bar would appear sluggish so we continue if timeout
+; expires or limit is reached.
+throttle-output = 5
+throttle-output-for = 10
+
+; Time in milliseconds that the input handler will wait between processing events
+throttle-input-for = 30
+
+; Reload upon receiving XCB_RANDR_SCREEN_CHANGE_NOTIFY events
+screenchange-reload = true
+
+; Compositing operators
+; @see: https://www.cairographics.org/manual/cairo-cairo-t.html#cairo-operator-t
+compositing-background = over
+compositing-foreground = over
+compositing-overline = over
+compositing-underline = over
+compositing-border = over
+
+; Define fallback values used by all module formats
+format-foreground = 
+format-background = 
+format-underline =
+format-overline = 
+format-spacing = 0
+format-padding = 0
+format-margin = 0
+format-offset =
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+; vim:ft=dosini

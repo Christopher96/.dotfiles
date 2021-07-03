@@ -1,0 +1,96 @@
+@import "/home/syphez/.cache/wal/colors.css";
+
+panelview,
+#PlacesChevronPopup,
+#nav-bar-customization-target,
+#PersonalToolbar,
+#tabbrowser-tabs {
+    background-color: var(--color0) !important;
+}
+
+#PersonalToolbar,
+#navigator-toolbox {
+    background-image: none !important; 
+}
+
+tab.tabbrowser-tab::after {
+    content: "";
+    display: -moz-box;
+    width: 0;
+    height: 0;
+    border: 0 !important;
+    //border-bottom: 30px solid transparent !important;
+    //border-left: 15px solid var(--color5) !important;
+}
+
+tab.tabbrowser-tab::before {
+    content: "";
+    display: -moz-box;
+    width: 0;
+    height: 0;
+    border: 0 !important;
+    //border-top: 30px solid transparent !important;
+    //border-right: 15px solid !important; 
+    //border-left: 0px !important; 
+    margin-top: 0 !important; 
+    margin-bottom: 0 !important; 
+    opacity: 1 !important; 
+}
+
+
+tab.tabbrowser-tab[selected=true] .tab-content {
+    background-color: var(--color5) !important;
+    color: (--color15);
+}
+
+tab.tabbrowser-tab[selected=true]::after {
+    border-left-color: var(--color5) !important;
+}
+
+tab.tabbrowser-tab[selected=true]::before {
+    border-right-color: var(--color5) !important; 
+}
+
+tab.tabbrowser-tab .tab-content {
+    background-color: var(--color2) important;
+    color: (--color15);
+}
+
+tab.tabbrowser-tab::after {
+    border-left-color: (--color15) !important;
+}
+
+tab.tabbrowser-tab::before {
+    border-right-color: (--color15) !important; 
+}
+
+toolbarbutton {
+    background-color: var(--color0) !important;
+    color: var(--color5) !important;
+    fill: var(--color5) !important;
+}
+
+toolbarbutton:hover {
+    --backbutton-hover-background: var(--color5) !important;
+    color: var(--color15) !important;
+    fill: var(--color15) !important;
+}
+
+#reload-button:hover .toolbarbutton-icon,
+panelview toolbarbutton:hover,
+#nav-bar toolbarbutton:not(#reload-button):hover > *{
+    background-color: var(--color5) !important;
+}
+
+#PersonalToolbar toolbarbutton {
+    margin: 0;
+    padding: .5em !important;
+}
+
+#PersonalToolbar toolbarbutton:hover {
+    background-color: var(--color5) !important;
+}
+
+#PlacesChevronPopup > * {
+    background-color: var(--color0) !important;
+}

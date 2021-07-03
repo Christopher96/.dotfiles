@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+local="/mnt/share/plugg"
+remote="gdrive:plugg"
+inotifywait -m $local -e create,moved_to,delete,close_write -r |
+    /home/syphez/.local/bin/sync-update $local $remote

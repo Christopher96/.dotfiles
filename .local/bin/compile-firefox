@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+dir="${HOME}/.tmp/browser"
+
+if [ ! -d "${dir}" ]; then
+    echo "creating directory" &&\
+    mkdir -p $dir
+fi
+
+if [ ! "$(ls -A $dir)" ]; then
+    echo "copying omni.ja" &&\
+    sudo cp /usr/lib/firefox/browser/omni.ja $dir &&\
+    echo "unzipping omni.ja" &&\
+    unzip $dir/omni.ja -d $dir >/dev/null
+fi
+
+echo "changing directoy" &&\
+cd $dir &&\
+echo "removing omni.ja" &&\
+rm -rf omni.ja &&\
+echo "zipping files" &&\
+zip -qr9XD omni.ja * &&\
+echo "copying and replacing omni" &&\
+sudo cp omni.ja /usr/lib/firefox/browser &&\
+echo "starting firefox" &&\
+firefox -purgecaches &

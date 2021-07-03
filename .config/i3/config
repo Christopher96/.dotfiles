@@ -1,0 +1,244 @@
+set $mod Mod1
+set $sup Mod4
+
+floating_modifier $mod
+
+font pango:DEC Terminal 11
+
+set $browser brave
+set $terminal st
+
+
+# ================== DVI-I-1 =====================
+
+set $workspace_1 "1: "
+set $workspace_2 "2: "
+set $workspace_3 "3: "
+
+workspace $workspace_1 output DVI-I-1
+workspace $workspace_2 output DVI-I-1
+workspace $workspace_3 output DVI-I-1
+
+bindsym $mod+1 workspace $workspace_1
+bindsym $mod+2 workspace $workspace_2
+bindsym $mod+3 workspace $workspace_3
+
+bindsym $mod+Shift+1 move container to workspace $workspace_1; workspace $workspace_1
+bindsym $mod+Shift+2 move container to workspace $workspace_2; workspace $workspace_2
+bindsym $mod+Shift+3 move container to workspace $workspace_3; workspace $workspace_3
+
+bindsym $mod+Ctrl+1 workspace $workspace_1; exec $terminal
+bindsym $mod+Ctrl+2 workspace $workspace_2; exec $browser
+bindsym $mod+Ctrl+3 workspace $workspace_3; exec $terminal
+
+# ================== HDMI-0 =====================
+
+set $workspace_q "11: "
+set $workspace_w "12: "
+set $workspace_e "13: "
+set $workspace_u "14: "
+
+workspace $workspace_q output HDMI-0
+workspace $workspace_w output HDMI-0
+workspace $workspace_e output HDMI-0
+workspace $workspace_u output HDMI-0
+
+bindsym $mod+q workspace $workspace_q
+bindsym $mod+w workspace $workspace_w
+bindsym $mod+e workspace $workspace_e
+bindsym $mod+u workspace $workspace_u
+
+bindsym $mod+Shift+q move container to workspace $workspace_q; workspace $workspace_q
+bindsym $mod+Shift+w move container to workspace $workspace_w; workspace $workspace_w
+bindsym $mod+Shift+e move container to workspace $workspace_e; workspace $workspace_e
+
+bindsym $mod+Ctrl+q workspace $workspace_q; exec $terminal
+bindsym $mod+Ctrl+w workspace $workspace_w; exec $browser
+bindsym $mod+Ctrl+e workspace $workspace_e; exec $terminal 
+
+# ================== DP-3 =====================
+
+set $workspace_a "111: "
+set $workspace_s "112: "
+set $workspace_d "113: "
+
+workspace $workspace_a output DP-3
+workspace $workspace_s output DP-3
+workspace $workspace_d output DP-3
+
+bindsym $mod+a workspace $workspace_a
+bindsym $mod+s workspace $workspace_s
+bindsym $mod+d workspace $workspace_d
+
+bindsym $mod+Shift+a move container to workspace $workspace_a; workspace $workspace_a
+bindsym $mod+Shift+s move container to workspace $workspace_s; workspace $workspace_s
+bindsym $mod+Shift+d move container to workspace $workspace_d; workspace $workspace_d
+
+bindsym $mod+Ctrl+a workspace $workspace_a; exec $terminal
+bindsym $mod+Ctrl+s workspace $workspace_s; exec $browser
+bindsym $mod+Ctrl+d workspace $workspace_d; exec $terminal 
+
+# ================== ALL SCREENS =====================
+
+set $workspace_4 "4"
+set $workspace_5 "5"
+set $workspace_6 "6"
+set $workspace_7 "7"
+set $workspace_8 "8"
+set $workspace_9 "9"
+set $workspace_10 "10"
+
+bindsym $mod+4 workspace $workspace_4
+bindsym $mod+5 workspace $workspace_5
+bindsym $mod+6 workspace $workspace_6
+bindsym $mod+7 workspace $workspace_7
+bindsym $mod+8 workspace $workspace_8
+bindsym $mod+9 workspace $workspace_9
+bindsym $mod+0 workspace $workspace_10
+
+bindsym $sup+4 move container to workspace $workspace_4; workspace $workspace_4
+bindsym $sup+5 move container to workspace $workspace_5; workspace $workspace_5
+bindsym $sup+6 move container to workspace $workspace_6; workspace $workspace_6
+bindsym $sup+7 move container to workspace $workspace_7; workspace $workspace_7
+bindsym $sup+9 move container to workspace $workspace_8; workspace $workspace_8
+bindsym $sup+8 move container to workspace $workspace_9; workspace $workspace_9
+bindsym $sup+0 move container to workspace $workspace_10; workspace $workspace_10
+
+bindsym $mod+Ctrl+o exec "$terminal -e ranger"
+
+# ================== Keybinds =====================
+
+# MOD1 BINDINGS
+
+bindcode $mod+49              kill
+
+bindsym $mod+r                reload
+bindsym $mod+Shift+r          restart
+
+bindsym $mod+p                exec pkill -USR1 polybar
+bindsym $mod+Shift+p          exec ~/.scripts/polybar.sh
+bindsym $mod+Control+Shift+p  exec pkill polybar
+
+bindsym $mod+f 		          exec "rofi -show drun -modi drun,run,ssh"
+bindsym $mod+Shift+f 		  exec "rofi -show drun -modi drun -run-command 'sudo -A {cmd}'"
+
+bindsym $mod+Control+f        fullscreen toggle
+
+
+bindsym $mod+x		          exec xrdb ~/.Xresources
+bindsym $mod+Shift+x	      exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+bindsym $mod+z                layout toggle split
+
+bindsym $mod+v                split v
+bindsym $mod+Shift+v          split h
+
+bindsym $mod+space            floating toggle
+bindsym $mod+Shift+space      focus mode_toggle
+
+# bindsym $mod+p               focus parent
+
+bindsym $mod+h                focus left
+bindsym $mod+j                focus down
+bindsym $mod+k                focus up
+bindsym $mod+l		            focus right
+
+bindsym $mod+Shift+h          move left
+bindsym $mod+Shift+j          move down
+bindsym $mod+Shift+k          move up
+bindsym $mod+Shift+l	      move right
+
+bindsym $mod+Shift+Left       move left
+bindsym $mod+Shift+Down       move down
+bindsym $mod+Shift+Up         move up
+bindsym $mod+Shift+Right      move right
+
+bindsym $mod+Tab              workspace back_and_forth
+bindsym $mod+Shift+Tab        move container to workspace back_and_forth; workspace back_and_forth
+
+bindsym $mod+Ctrl+h                resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+j                resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+k                resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+l                resize grow width 10 px or 10 ppt
+
+bindsym $mod+Shift+minus        move scratchpad
+bindsym $mod+minus              scratchpad show
+
+bindsym $mod+Shift+Home			exec reboot
+bindsym $mod+Shift+End			exec shutdown -h now
+bindsym $mod+Shift+backSpace	exec ~/.config/i3/bin/lock.sh
+
+bindsym $mod+Shift+Return 		exec ~/.scripts/term-cwd.sh
+bindsym $mod+Return 			exec $terminal
+
+bindsym $mod+Ctrl+g 			exec gyazo
+bindsym $sup+Ctrl+l             exec dm-tool lock
+
+# F-KEY BINDINGS
+set $wal ~/.scripts/wpg-set.sh
+
+bindsym $mod+F1		exec $wal 5lFWCfD.jpg mylivewallpapers.com-Sakura-and-Smoke.mp4
+bindsym $mod+F2		exec $wal zero-dance.png mylivewallpapers.com-Zero-Two-Dance.mp4
+
+# OTHER BINDINGS
+
+bindsym --release Print 	    exec --no-startup-id maim -s -u | xclip -selection clipboard -t image/png -i
+bindsym --release Shift+Print 	exec --no-startup-id gyazo
+
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume 	exec --no-startup-id ~/.config/i3/bin/volume.sh 1
+bindsym XF86AudioLowerVolume 	exec --no-startup-id ~/.config/i3/bin/volume.sh 0
+bindsym XF86AudioMute 		    exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp 	exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown 	exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+# bindsym XF86TouchpadToggle 		exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay 				exec playerctl play
+bindsym XF86AudioPause 				exec playerctl pause
+bindsym XF86AudioNext 				exec playerctl next
+bindsym XF86AudioPrev 				exec playerctl previous
+
+# Color theme set from Xresources with fallback values
+set_from_resource $border 			i3wm.border 			#444444
+set_from_resource $background 		i3wm.background 		#2d2d2d
+set_from_resource $foreground		i3wm.foreground 		#ffffff
+set_from_resource $text 			i3wm.text 			    #444444
+set_from_resource $indicator		i3wm.indicator	 		#222222
+set_from_resource $child_border 	i3wm.child_border 		#444444
+
+# class                       		border		background	text		indicator	child_border
+client.focused                		$border 	$background	$text		$child_border	$child_border
+client.focused_inactive       		$border 	$background	$text		$child_border	$child_border
+client.unfocused              		$border		$background	$text		$child_border	$child_border
+client.urgent                		$border		$background	$text		$child_border	$child_border
+client.placeholder           		$border		$background	$text		$child_border	$child_border
+client.background            		$border
+
+set $floating_windows Thunar|Galculator|Pavucontrol|feh|yad|Yad|Wpg|Electron|sun-awt-X11-XFramePeer
+
+for_window [class="$floating_windows"] floating enable, border pixel 0
+for_window [class="\b(?!$floating_windows)^.*"] border none
+for_window [title="^Figure"]                       floating enable
+for_window [window_role="pop-up"]                       floating enable
+for_window [window_role="bubble"]                       floating enable 
+for_window [window_role="task_dialog"]                  floating enable
+for_window [window_role="Preferences"]                  floating enable
+for_window [window_type="dialog"]                       floating enable 
+for_window [window_type="menu"]                         floating enable
+
+# smart_gaps on
+gaps inner 5
+# gaps outer 5
+
+exec --no-startup-id ~/.scripts/polybar.sh
+exec --no-startup-id ~/.scripts/wallpaper-wrap && sleep 1 && picom
+exec --no-startup-id wal -R
+exec --no-startup-id ckb-next --background
+exec --no-startup-id udiskie
+

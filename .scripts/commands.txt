@@ -1,0 +1,57 @@
+APPEARANCE
+lxappearance
+lightdm-gtk-greeter-settings
+grub-customizer
+zenity
+
+DRIVE SPACE
+df
+pydf
+lsblk
+cat /proc/partitions
+
+SPECS
+inxi -Fx
+lshw
+hwinfo --short
+screenfetch
+
+KERNEL
+cat /proc/version
+uname -a/-r
+
+STATS
+htop
+
+NETWORK
+nmap -sP 192.168.15.*
+wifite
+
+IP ADRESS
+public: curl 
+ipinfo.io/ip
+ifconfig.me
+icanhazip.com
+ipecho.net
+
+local: ifconfig -a
+
+SYSTEMD
+(watch service logs)
+journalctl -f -u (service)
+
+COMMAND SEARCH
+compgen
+
+ADB ANDROID
+adb devices
+backup - adb backup -apk -shared -all -f backups/backup.ab
+restore - adb restore backups/backup.ab
+
+DOWNLOAD GIT FOLDER
+svn checkout (tree/master - trunk)
+
+MONITOR GPU
+nvidia-smi
+watch -n 0.5 nvidia-smi pmon -c 1
+
